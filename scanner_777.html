@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { 
+            background: #1c1c1d; color: white; font-family: -apple-system, sans-serif; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            height: 100vh; margin: 0; 
+        }
+        .btn { 
+            background: #248bdf; border: none; color: white; padding: 18px 35px; 
+            font-size: 18px; border-radius: 12px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .btn:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+    <button class="btn" id="scan-btn">📷 ОТКРЫТЬ СКАНЕР</button>
+
+    <script>
+        const webapp = window.Telegram.WebApp;
+        webapp.ready();
+        webapp.expand();
+
+        document.getElementById('scan-btn').addEventListener('click', () => {
+            // Запуск встроенного сканера Telegram
+            webapp.showScanQrPopup({
+                text: "Наведите на QR-код чека SFS.md"
+            }, function(data) {
+                // Отправляем данные QR-кода боту
+                webapp.sendData(data);
+                webapp.closeScanQrPopup();
+                webapp.close();
+                return true;
+            });
+        });
+    </script>
+</body>
+</html>
